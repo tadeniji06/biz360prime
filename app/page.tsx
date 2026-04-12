@@ -22,6 +22,7 @@ export default function Home() {
             <a href="#live-products" className="text-zinc-600 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-500 transition-colors">Solutions</a>
             <a href="#" className="text-zinc-600 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-500 transition-colors">Platform</a>
             <a href="/about" className="text-zinc-600 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-500 transition-colors">About Us</a>
+            <a href="/blog" className="text-zinc-600 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-500 transition-colors">Blog</a>
           </nav>
           <div className="flex items-center gap-4">
             <button className="text-sm font-medium text-black dark:text-white">Log in</button>

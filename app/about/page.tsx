@@ -16,6 +16,7 @@ export default function About() {
             <a href="/#solutions" className="text-zinc-600 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-500 transition-colors">Solutions</a>
             <a href="/#platform" className="text-zinc-600 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-500 transition-colors">Platform</a>
             <a href="/about" className="text-red-600 dark:text-red-400 transition-colors pointer-events-none">About Us</a>
+            <a href="/blog" className="text-zinc-600 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-500 transition-colors">Blog</a>
           </nav>
           <div className="flex items-center gap-4">
             <button className="text-sm font-medium bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition-colors flex items-center gap-2">
