@@ -27,8 +27,33 @@ export default async function BlogPostPage({ params }: PageProps) {
     return notFound();
   }
 
+  const blogPostingSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "image": post.mainImage ? urlFor(post.mainImage).width(1200).height(800).url() : undefined,
+    "author": {
+      "@type": "Person",
+      "name": post.author?.name || "Biz360 Team"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Biz360 Prime",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.biz360prime.com/logo.png"
+      }
+    },
+    "datePublished": post.publishedAt || new Date().toISOString(),
+    "description": post.excerpt || post.title
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-zinc-50 dark:bg-zinc-100 font-sans">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
+      />
       <header className="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-md">
         <div className="container mx-auto px-6 h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">

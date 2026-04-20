@@ -9,8 +9,36 @@ import { logo } from "../assets";
 import Link from "next/link";
 
 export default function Home() {
+	const professionalServiceSchema = {
+		"@context": "https://schema.org",
+		"@type": "ProfessionalService",
+		"name": "Biz360 Prime",
+		"image": "https://www.biz360prime.com/logo.png",
+		"url": "https://www.biz360prime.com",
+		"priceRange": "$$",
+		"address": {
+			"@type": "PostalAddress",
+			"addressCountry": "NG"
+		},
+		"areaServed": {
+			"@type": "Country",
+			"name": "Nigeria"
+		},
+		"serviceType": [
+			"Business Consulting",
+			"Digital Strategy",
+			"Market Insights",
+			"Entrepreneurship Support",
+			"Content & Media Services"
+		]
+	};
+
 	return (
 		<div className='flex flex-col min-h-screen bg-zinc-50 dark:bg-black font-sans overflow-hidden'>
+			<script
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceSchema) }}
+			/>
 			{/* Header */}
 			<header className='sticky top-0 z-50 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-black/80 backdrop-blur-md'>
 				<div className='container mx-auto px-6 h-20 flex items-center justify-between'>

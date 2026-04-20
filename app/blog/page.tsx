@@ -7,6 +7,21 @@ import { logo } from "../../assets";
 export const revalidate = 60; // revalidate this page every 60 seconds
 
 export default async function BlogPage() {
+  const blogSchema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Biz360 Prime Insights",
+    "url": "https://www.biz360prime.com/blog",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Biz360 Prime",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.biz360prime.com/logo.png"
+      }
+    }
+  };
+
   let posts: any[] = [];
   try {
     posts = await getBlogPosts();
@@ -16,6 +31,10 @@ export default async function BlogPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-zinc-50 dark:bg-black font-sans">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
+      />
       <header className="sticky top-0 z-50 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-black/80 backdrop-blur-md">
         <div className="container mx-auto px-6 h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
