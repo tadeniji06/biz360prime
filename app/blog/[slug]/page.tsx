@@ -122,7 +122,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             <div className="flex items-center gap-4">
               {post.author?.image ? (
                 <div className="w-12 h-12 rounded-full overflow-hidden relative shadow-sm">
-                  <Image src={urlFor(post.author.image).width(120).height(120).url()} alt={post.author.name || 'Author'} fill className="object-cover" />
+                  <Image loading="eager" src={post.author.image} width={200} height={200} alt={post.author.name || 'Author'} className="object-cover" />
                 </div>
               ) : (
                 <div className="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center">
@@ -144,8 +144,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               <Image 
                 src={urlFor(post.mainImage).width(1200).height(800).url()} 
                 alt={post.title} 
-                fill
-                className="object-cover" 
+                fill                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"                className="object-cover" 
                 priority
               />
             </div>

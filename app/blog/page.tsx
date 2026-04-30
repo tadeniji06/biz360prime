@@ -59,6 +59,7 @@ export default async function BlogPage() {
                       src={urlFor(post.mainImage).width(800).height(450).url()} 
                       alt={post.title} 
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover group-hover:scale-105 transition-transform duration-500" 
                     />
                   ) : (
@@ -79,7 +80,7 @@ export default async function BlogPage() {
                     <div className="flex items-center gap-2">
                       {post.authorImage ? (
                         <div className="w-8 h-8 rounded-full overflow-hidden relative">
-                          <Image src={urlFor(post.authorImage).width(100).height(100).url()} alt={post.authorName || 'Author'} fill className="object-cover" />
+                          <Image src={post.authorImage} width={100} height={100} alt={post.authorName || 'Author'} className="object-cover w-full h-full" />
                         </div>
                       ) : (
                         <div className="w-8 h-8 rounded-full bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center">

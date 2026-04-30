@@ -1,5 +1,5 @@
 import { createClient } from "next-sanity";
-import imageUrlBuilder from "@sanity/image-url";
+import { createImageUrlBuilder } from "@sanity/image-url";
 import type { SanityImageSource } from "@sanity/image-url";
 
 // Define types for better TypeScript support
@@ -37,7 +37,7 @@ export const client = createClient({
   apiVersion: "2024-01-01",
 });
 
-const builder = imageUrlBuilder(client);
+const builder = createImageUrlBuilder(client);
 export const urlFor = (source: SanityImageSource) => builder.image(source);
 
 // Query functions with proper typing
