@@ -101,7 +101,7 @@ export default async function BlogPage() {
         <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
             <div className="p-2 rounded-lg bg-black flex items-center justify-center border border-zinc-800">
-              <Image src={logo} alt="Biz360Prime" width={80} height={24} className="object-contain" />
+              <Image src={logo} alt="Biz360Prime" width={100} height={100} className="object-contain" />
             </div>
           </div>
           <p className="text-sm text-zinc-500 dark:text-zinc-500">
