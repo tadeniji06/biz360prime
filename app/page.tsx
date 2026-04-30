@@ -3,10 +3,9 @@ import LiveProducts from "./components/LiveProducts";
 import Features from "./components/Features";
 import FAQ from "./components/FAQ";
 import CTA from "./components/CTA";
-import { ArrowRight, Globe } from "lucide-react";
+import { Globe } from "lucide-react";
 import Image from "next/image";
 import { logo } from "../assets";
-import Link from "next/link";
 
 export default function Home() {
 	const professionalServiceSchema = {
@@ -39,62 +38,6 @@ export default function Home() {
 				type="application/ld+json"
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceSchema) }}
 			/>
-			{/* Header */}
-			<header className='sticky top-0 z-50 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-black/80 backdrop-blur-md'>
-				<div className='container mx-auto px-6 h-20 flex items-center justify-between'>
-					<div className='flex items-center gap-2'>
-						<div className='p-2 rounded-lg bg-black flex items-center justify-center border border-zinc-800'>
-							<Image
-								src={logo}
-								alt='Biz360Prime'
-								width={100}
-								height={32}
-								className='object-contain'
-							/>
-						</div>
-					</div>
-					<nav className='hidden md:flex items-center gap-8 text-sm font-medium'>
-						<Link
-							href='#live-products'
-							className='text-zinc-600 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-500 transition-colors'
-						>
-							Solutions
-						</Link>
-						<Link
-							href='#'
-							className='text-zinc-600 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-500 transition-colors'
-						>
-							Platform
-						</Link>
-						<Link
-							href='/about'
-							className='text-zinc-600 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-500 transition-colors'
-						>
-							About Us
-						</Link>
-						<Link
-							href='/blog'
-							className='text-zinc-600 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-500 transition-colors'
-						>
-							Blog
-						</Link>
-						<Link
-							href='/contact'
-							className='text-zinc-600 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-500 transition-colors'
-						>
-							Contact
-						</Link>
-					</nav>
-					<div className='flex items-center gap-4'>
-						<button className='text-sm font-medium text-black dark:text-white'>
-							Log in
-						</button>
-						<button className='text-sm font-medium bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition-colors flex items-center gap-2'>
-							Get Started <ArrowRight size={16} />
-						</button>
-					</div>
-				</div>
-			</header>
 
 			{/* Hero Section */}
 			<main className='flex-1 container mx-auto px-6 py-12 flex flex-col items-center'>

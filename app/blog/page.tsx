@@ -1,7 +1,7 @@
 import { getBlogPosts, urlFor } from "../../sanity/client";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Calendar, User } from "lucide-react";
+import { Calendar, User } from "lucide-react";
 import { logo } from "../../assets";
 
 export const revalidate = 60; // revalidate this page every 60 seconds
@@ -35,27 +35,6 @@ export default async function BlogPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
       />
-      <header className="sticky top-0 z-50 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-black/80 backdrop-blur-md">
-        <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-black flex items-center justify-center border border-zinc-800">
-              <Image src={logo} alt="Biz360Prime" width={100} height={32} className="object-contain" />
-            </div>
-          </Link>
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
-            <Link href="/#live-products" className="text-zinc-600 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-500 transition-colors">Solutions</Link>
-            <Link href="/about" className="text-zinc-600 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-500 transition-colors">About Us</Link>
-            <Link href="/blog" className="text-red-600 dark:text-red-400 transition-colors pointer-events-none">Blog</Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <button className="text-sm font-medium text-black dark:text-white">Log in</button>
-            <button className="text-sm font-medium bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition-colors flex items-center gap-2">
-              Get Started <ArrowRight size={16} />
-            </button>
-          </div>
-        </div>
-      </header>
-
       <main className="flex-1 w-full max-w-6xl mx-auto px-6 py-24">
         <div className="mb-16">
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-black dark:text-white mb-6">

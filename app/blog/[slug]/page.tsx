@@ -1,13 +1,58 @@
 import { getBlogPost, urlFor } from "../../../sanity/client";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Calendar, User, Clock } from "lucide-react";
+import { ArrowLeft, Calendar, User, Clock } from "lucide-react";
 import { logo } from "../../../assets";
 import { notFound } from "next/navigation";
-import { PortableText } from "@portabletext/react";
+import { PortableText, PortableTextComponents } from "@portabletext/react";
 
 // Required to make Next.js use dynamic params if we don't strictly generate statically
 export const dynamic = "force-dynamic";
+export const revalidate = 360;
+
+const portableTextComponents: PortableTextComponents = {
+  block: {
+    h1: ({ children }) => <h1 className="text-3xl md:text-4xl font-bold mb-6 mt-8 text-black">{children}</h1>,
+    h2: ({ children }) => <h2 className="text-2xl md:text-3xl font-bold mb-5 mt-7 text-black">{children}</h2>,
+    h3: ({ children }) => <h3 className="text-xl md:text-2xl font-bold mb-4 mt-6 text-black">{children}</h3>,
+    h4: ({ children }) => <h4 className="text-lg md:text-xl font-bold mb-3 mt-5 text-black">{children}</h4>,
+    h5: ({ children }) => <h5 className="text-base md:text-lg font-bold mb-3 mt-4 text-black">{children}</h5>,
+    h6: ({ children }) => <h6 className="text-sm md:text-base font-bold mb-3 mt-4 text-black">{children}</h6>,
+    normal: ({ children }) => <p className="mb-4 leading-relaxed">{children}</p>,
+    blockquote: ({ children }) => (
+      <blockquote className="border-l-4 border-red-600 bg-red-50 py-4 px-6 my-6 rounded-r-lg italic text-zinc-700">
+        {children}
+      </blockquote>
+    ),
+  },
+  marks: {
+    em: ({ children }) => <em className="italic">{children}</em>,
+    strong: ({ children }) => <strong className="font-bold">{children}</strong>,
+    code: ({ children }) => (
+      <code className="bg-zinc-200 px-2 py-1 rounded text-sm font-mono text-zinc-800">
+        {children}
+      </code>
+    ),
+    link: ({ value, children }) => (
+      <a
+        href={value?.href}
+        target={value?.blank ? "_blank" : "_self"}
+        rel={value?.blank ? "noopener noreferrer" : ""}
+        className="text-red-600 hover:text-red-700 underline"
+      >
+        {children}
+      </a>
+    ),
+  },
+  list: {
+    bullet: ({ children }) => <ul className="list-disc list-inside mb-4 space-y-2">{children}</ul>,
+    number: ({ children }) => <ol className="list-decimal list-inside mb-4 space-y-2">{children}</ol>,
+  },
+  listItem: {
+    bullet: ({ children }) => <li className="ml-4">{children}</li>,
+    number: ({ children }) => <li className="ml-4">{children}</li>,
+  },
+};
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -54,24 +99,6 @@ export default async function BlogPostPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
       />
-      <header className="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-md">
-        <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-black flex items-center justify-center border border-zinc-800">
-              <Image src={logo} alt="Biz360Prime" width={100} height={32} className="object-contain" />
-            </div>
-          </Link>
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
-            <Link href="/blog" className="text-zinc-600 hover:text-red-600 transition-colors">Back to Blog</Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <Link href="/" className="text-sm font-medium bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition-colors flex items-center gap-2">
-              Get Started <ArrowRight size={16} />
-            </Link>
-          </div>
-        </div>
-      </header>
-
       <main className="flex-1 w-full relative">
         {/* Editorial Header Section */}
         <section className="max-w-5xl mx-auto px-6 pt-16 pb-12">
@@ -113,7 +140,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         {/* Hero Image full width or wide block */}
         {post.mainImage && (
           <div className="max-w-6xl mx-auto px-6 mb-16">
-            <div className="w-full h-[400px] md:h-[600px] relative rounded-lg overflow-hidden shadow-sm">
+            <div className="w-full h-100 md:h-150 relative rounded-lg overflow-hidden shadow-sm">
               <Image 
                 src={urlFor(post.mainImage).width(1200).height(800).url()} 
                 alt={post.title} 
@@ -127,9 +154,9 @@ export default async function BlogPostPage({ params }: PageProps) {
 
         {/* Article Body Content */}
         <section className="max-w-3xl mx-auto px-6 pb-24">
-          <article className="prose prose-lg md:prose-xl prose-zinc prose-a:text-red-600 hover:prose-a:text-red-700 prose-blockquote:border-l-red-600 prose-blockquote:bg-red-50 prose-blockquote:py-1 prose-blockquote:px-6 prose-blockquote:not-italic prose-blockquote:rounded-r-lg max-w-none text-black selection:bg-red-200 selection:text-red-900 leading-relaxed font-serif">
+          <article className="text-black leading-relaxed">
             {post.body ? (
-              <PortableText value={post.body} />
+              <PortableText value={post.body} components={portableTextComponents} />
             ) : (
               <p className="text-zinc-500 italic">No content available for this post.</p>
             )}

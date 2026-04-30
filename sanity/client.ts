@@ -1,6 +1,6 @@
 import { createClient } from "next-sanity";
 import imageUrlBuilder from "@sanity/image-url";
-import { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import type { SanityImageSource } from "@sanity/image-url";
 
 // Define types for better TypeScript support
 export interface Author {
@@ -61,7 +61,7 @@ export const getBlogPosts = async (limit = 10, offset = 0): Promise<BlogPost[]> 
     body[0...2],
     "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 )
   }`;
-  
+
   return await client.fetch(query);
 };
 
@@ -85,13 +85,13 @@ export const getBlogPost = async (slug: string): Promise<BlogPost | null> => {
     body,
     "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 )
   }`;
-  
+
   return await client.fetch(query, { slug });
 };
 
 export const getRelatedPosts = async (
-  categories: Category[], 
-  currentPostId: string, 
+  categories: Category[],
+  currentPostId: string,
   limit = 3
 ): Promise<BlogPost[]> => {
   const query = `*[_type == "post" && _id != $currentPostId && count((categories[]._ref)[@ in $categories]) > 0] | order(publishedAt desc) [0...${limit}] {
@@ -106,7 +106,7 @@ export const getRelatedPosts = async (
     publishedAt,
     "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 )
   }`;
-  
+
   return await client.fetch(query, {
     categories: categories?.map(cat => cat._id) || [],
     currentPostId
@@ -126,7 +126,7 @@ export const searchPosts = async (searchTerm: string): Promise<BlogPost[]> => {
     publishedAt,
     "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 )
   }`;
-  
+
   return await client.fetch(query, { searchTerm: `*${searchTerm}*` });
 };
 
@@ -135,7 +135,7 @@ export const getCategories = async (): Promise<Category[]> => {
     _id,
     title
   }`;
-  
+
   return await client.fetch(query);
 };
 
