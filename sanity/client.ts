@@ -40,9 +40,15 @@ export const client = createClient({
 const builder = createImageUrlBuilder(client);
 export const urlFor = (source: SanityImageSource) => builder.image(source);
 
-// Query functions with proper typing
-export const getBlogPosts = async (limit = 10, offset = 0): Promise<BlogPost[]> => {
-  const query = `*[_type == "post"] | order(publishedAt desc) [${offset}...${offset + limit}] {
+// Global pagination handler
+export const fetchPaginatedData = async (
+  type: string, // The Sanity document type (e.g., "post")
+  limit = 10, // Number of items per page
+  offset = 0, // Starting index for fetching items
+  additionalFilters = "" // Additional GROQ filters (optional)
+): Promise<any[]> => {
+  console.log(`Fetching ${type} with limit ${limit} and offset ${offset}`);
+  const query = `*[_type == "${type}" ${additionalFilters}] | order(publishedAt desc) [${offset}...${offset + limit}] {
     _id,
     title,
     slug,
@@ -64,6 +70,17 @@ export const getBlogPosts = async (limit = 10, offset = 0): Promise<BlogPost[]> 
 
   return await client.fetch(query);
 };
+
+// Refactor getBlogPosts to use the global handler
+export const getBlogPosts = async (
+  limit = 10,
+  offset = 0
+): Promise<BlogPost[]> => {
+  return await fetchPaginatedData("post", limit, offset);
+};
+
+// Example usage of getBlogPosts with pagination
+// const posts = await getBlogPosts(10, 20); // Fetch 10 posts starting from the 21st post
 
 export const getBlogPost = async (slug: string): Promise<BlogPost | null> => {
   const query = `*[_type == "post" && slug.current == $slug][0] {

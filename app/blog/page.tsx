@@ -1,12 +1,20 @@
 import { getBlogPosts, urlFor } from "../../sanity/client";
 import Image from "next/image";
 import Link from "next/link";
-import { Calendar, User } from "lucide-react";
+import { Calendar, User, ChevronRight, ChevronLeft} from "lucide-react";
 import { logo } from "../../assets";
 
-export const revalidate = 60; // revalidate this page every 60 seconds
+export const revalidate = 60;
+export const dynamic = "force-dynamic"; // Ensure dynamic rendering to handle query parameters
 
-export default async function BlogPage() {
+export default async function BlogPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+  const resolvedSearchParams = await searchParams;
+  const page = parseInt(resolvedSearchParams.page || "1", 10);
+  const limit = 5;
+  const offset = (page - 1) * limit;
+
+
+
   const blogSchema = {
     "@context": "https://schema.org",
     "@type": "Blog",
@@ -24,10 +32,13 @@ export default async function BlogPage() {
 
   let posts: any[] = [];
   try {
-    posts = await getBlogPosts();
+    posts = await getBlogPosts(limit, offset);
+    console.log("Fetched posts: ", posts);
   } catch (err) {
     console.error("Sanity fetch error: ", err);
   }
+
+  const isLastPage = posts.length < limit;
 
   return (
     <div className="flex flex-col min-h-screen bg-zinc-50 dark:bg-black font-sans">
@@ -93,6 +104,24 @@ export default async function BlogPage() {
                 </div>
               </Link>
             ))}
+          </div>
+        )}
+
+        {posts.length > 0 && (
+          <div className="flex justify-between max-lg:justify-end max-md:gap-5 items-center mt-10 py-5">
+            <Link
+              href={{ pathname: "/blog", query: { page: page - 1 } }}
+              className={`px-2 py-2 bg-zinc-200 dark:bg-zinc-700 rounded-full ${page === 1 ? "opacity-50 pointer-events-none cursor-not-allowed" : ""}`}
+            >
+              <ChevronLeft size={32} className="inline" />
+            </Link>
+            <span className="text-base max-md:hidden text-zinc-800 font-medium dark:text-zinc-100 border border-zinc-800 dark:border-zinc-200 rounded-full px-4 py-2">{page}</span>
+            <Link
+              href={{ pathname: "/blog", query: { page: page + 1 } }}
+              className={`px-2 py-2 bg-zinc-200 dark:bg-zinc-500 rounded-full ${isLastPage ? "opacity-50 pointer-events-none" : ""}`}
+            >
+              <ChevronRight size={32} className="inline" />
+            </Link>
           </div>
         )}
       </main>

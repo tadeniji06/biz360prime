@@ -64,6 +64,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   try {
     post = await getBlogPost(slug);
+    console.log("Fetched post: ", post);
   } catch (err) {
     console.error("Sanity fetch error: ", err);
   }
